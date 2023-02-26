@@ -176,6 +176,19 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "makePayment",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -260,11 +273,11 @@
 	},
 	"sources": {
 		"contract/smartcontract.sol": {
-			"keccak256": "0x51b80d49f309ac717ba8f2ca86c83914cfac0bdef11a5bab9a972e44afe82d58",
+			"keccak256": "0x83ac21d5be9cc9117a714af8c08c75f77559ba95d86195d191c582a1dee1b165",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://57e8e8e4fcbd3aabcecfef81376852bce55352bd9c2667184841871c6d7196cf",
-				"dweb:/ipfs/QmcC6eSPUFckcfuWcMWZKiPaBzRv2JomSbbLi5Vcdx7M52"
+				"bzz-raw://099a8d3b65be3dbc82cb6cae5ac2ad703ae86da7867e5b13ef5e8d0366b381e6",
+				"dweb:/ipfs/QmeVCzupbxAxCruy1SkRzTvHwS3c7cWbP7E2tcdKT6sxQo"
 			]
 		}
 	},

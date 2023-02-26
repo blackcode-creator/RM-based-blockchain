@@ -40,6 +40,10 @@ contract RentalChain{
 
     // checkout the room
     function checkOut(address walletAddress) public{
+        // Required statements
+        require(renters[walletAddress].due == 0, "Dear customer, you have a pending balance.");
+        require(renters[walletAddress].canRent == true, "Dear customer, you can't rent at this time.");
+
         renters[walletAddress].active = true;
         //The timestamp will in unix format
         renters[walletAddress].start = block.timestamp;
@@ -48,6 +52,7 @@ contract RentalChain{
     }
     // checkin the room
     function checkIn(address walletAddress) public{
+        require(renters[walletAddress].active == true, "Dear customer, please check out the room first.");
         renters[walletAddress].active = false;
         renters[walletAddress].end = block.timestamp;
 
@@ -60,6 +65,7 @@ contract RentalChain{
         return end - start;
     }
     function getTotalDuration(address walletAddress) public view returns(uint){
+        require(renters[walletAddress].active == false, "Dear customer, the room is currently check out.");
         uint timespan = renterTimespan(renters[walletAddress].start,renters[walletAddress].end);
         uint timespanInMinutes = timespan / 60;
         return timespanInMinutes;
@@ -76,7 +82,7 @@ contract RentalChain{
     }
 
     // set Due amount 
-    // Here after 5 minutes you pay 2usd
+    // Here after 5 minutes you pay 2usd which equivalent to 0.005
     function setDue(address walletAddress) internal {
         uint timespanMinutes = getTotalDuration(walletAddress);
         uint fiveMinuteIncrements = timespanMinutes / 5;
@@ -90,10 +96,19 @@ contract RentalChain{
      
     // Deposit 
     function deposit(address walletAddress) payable public  {
-        
+        renters[walletAddress].balance += msg.value;
     }
-    
+
     // Make payment
+    function makePayment(address walletAddress) payable public {
+        require(renters[walletAddress].due > 0, "Dear customer, you do not have anything due at this time.");
+        require(renters[walletAddress].balance > msg.value, "Dear customer, you have insufficient amount. Please make a deposit.");
+        renters[walletAddress].balance -= msg.value;
+        renters[walletAddress].canRent = true;
+        renters[walletAddress].due = 0;
+        renters[walletAddress].start = 0;
+        renters[walletAddress].end = 0;
+    }
 
 
 }
